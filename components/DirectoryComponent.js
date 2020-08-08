@@ -6,7 +6,6 @@ import { CAMPSITES } from '../shared/campsites';
 class Directory extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             campsites: CAMPSITES
         };
