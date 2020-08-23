@@ -12,7 +12,6 @@ class Reservation extends Component {
             campers: 1,
             hikeIn: false,
             date: '',
-            // showModal: false
         };
     }
 
