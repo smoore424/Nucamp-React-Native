@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, Modal, Picker, ScrollView, StyleSheet, Switch, Text, View} from 'react-native';
+import { Alert, Button, Picker, StyleSheet, Switch, Text, View} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions';
