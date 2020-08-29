@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, View} from 'react-native';
 import { Button, CheckBox, Icon, Input } from 'react-native-elements';
+import { createBottomTabNavigator } from 'react-navigation';
 import * as SecureStore from 'expo-secure-store';
+import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { createBottomTabNavigator } from 'react-navigation';
 import { baseUrl } from '../shared/baseUrl';
-
 
 class LoginTab extends Component {
     constructor(props) {
@@ -154,8 +154,32 @@ class RegisterTab extends Component {
             });
             if (!capturedImage.cancelled) {
                 console.log(capturedImage);
-                this.setState({imageUrl: capturedImage.uri});
+                this.processImage(capturedImage.uri);
             }
+        }
+    }
+
+    processImage = async (imgUri) => {
+        const processedImage = await ImageManipulator.manipulateAsync(
+            imgUri, 
+            [
+                {resize: {width: 400}}
+            ],
+            {format: 'png'}
+        );
+        console.log(processedImage);
+        this.setState({imageUrl: processedImage.uri})
+    }
+
+    getImageFromGallery = async () => {
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const capturedImage = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [1,1]
+        });
+        if (!capturedImage.cancelled) {
+            console.log(capturedImage);
+            this.processImage(capturedImage.uri);
         }
     }
 
@@ -184,6 +208,10 @@ class RegisterTab extends Component {
                         <Button
                             title='Camera'
                             onPress={this.getImageFromCamera}
+                        />
+                        <Button 
+                            title='Gallery'
+                            onPress={this.getImageFromGallery}
                         />
                     </View>
                     <Input
